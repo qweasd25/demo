@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* Slider */
+
+        .slider,
+        .instructions {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1rem 2rem;
+            border-radius: 5px
+        }
+
+        .slider {
+            right: 10px;
+            top: 10px;
+        }
+
+        .slider>* {
+            display: block;
+        }
+
+        /* Instructions */
+
+        .instructions {
+            text-align: center;
+            bottom: 0;
+            background: initial;
+            color: black;
+        }
+
+        body {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.9);
+            background: url('http://bit.ly/2FiPrRA') 0 100%/340px no-repeat, var(--primary-color);
+            font-family: 'Shadows Into Light Two', cursive;
+        }
+
+        :root {
+            --primary-color: rgba(241, 196, 15, 1)
+        }
+
+        main.booth {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .color-box {
+            padding: 1rem 3.5rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0.3rem;
+            box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        :root {
+            --primary-color: rgba(241, 196, 15, 1);
+            --secondary-color: red;
+        }
+
+        /* 给每个盒子添加颜色 */
+
+        .color-box:nth-child(1) {
+            background: var(--bg-1, red)
+        }
+
+        .color-box:nth-child(2) {
+            background: var(--bg-2)
+        }
+
+        .color-box:nth-child(3) {
+            background: var(--bg-3)
+        }
+
+        .color-box:nth-child(4) {
+            background: var(--bg-4)
+        }
+
+        .color-box:nth-child(5) {
+            background: var(--bg-5)
+        }
+
+        .color-box:nth-child(6) {
+            background: var(--bg-6)
+        }
+
+        /* Color Boxes */
+
+        .color-boxes {
+            transform: perspective(500px) rotateY( calc(var(--slider) * 1deg));
+            transition: transform 0.3s
+        }
+    </style>
+</head>
+
+<body>
+    <main class="booth">
+        <aside class="slider">
+            <label>Move this 👇 </label>
+            <input class="booth-slider" type="range" min="-50" max="50" value="-50" step="5" />
+        </aside>
+
+        <section class="color-boxes">
+            <div class="color-box" id="1">
+                <input value="red" />
+            </div>
+            <div class="color-box" id="2">
+                <input/>
+            </div>
+            <div class="color-box" id="3">
+                <input/>
+            </div>
+            <div class="color-box" id="4">
+                <input/>
+            </div>
+            <div class="color-box" id="5">
+                <input/>
+            </div>
+            <div class="color-box" id="6">
+                <input/>
+            </div>
+        </section>
+
+        <footer class="instructions">
+            👉🏻 Move the slider
+            <br/> 👉🏻 Write any color in the red boxes
+        </footer>
+    </main>
+    <script src="../js/demo2.js"></script>
+</body>
+
+</html>
