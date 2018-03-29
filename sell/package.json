@@ -1,7 +1,7 @@
 {
   "name": "sell",
   "version": "1.0.0",
-  "description": "sell app",
+  "description": "A Vue.js project",
   "author": "qweasd25 <kdt602@126.com>",
   "private": true,
   "scripts": {
