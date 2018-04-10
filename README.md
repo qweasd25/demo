@@ -1,2 +1,2 @@
 # demo
-css variable
+css variable demo
