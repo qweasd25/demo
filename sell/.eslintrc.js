@@ -25,6 +25,15 @@ module.exports = {
     'generator-star-spacing': 'off',
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'semi':['error','always']
+    "space-before-function-paren": ["error", "always"],
+    // 要求或禁止使用分号而不是 ASI（这个才是控制行尾部分号的，）
+    'semi':['error','always'],
+    // 不允许多个空行
+    "no-multiple-empty-lines": [2, {
+      "max": 2
+    }],
+    // 强制在 function的左括号之前使用一致的空格
+    "space-before-function-paren": [0, "always"],
+    'indent':0
   }
 }
