@@ -19,9 +19,9 @@
               <small>数量：</small>{{totalCount}} &nbsp;&nbsp;&nbsp;&nbsp;<small>金额：</small>{{totalMoney}}元
             </div>
             <div class="div-btn">
-              <el-button type="warning">挂单</el-button>
-              <el-button type="danger">删除</el-button>
-              <el-button type="success">结账</el-button>
+              <el-button type="warning" >挂单</el-button>
+              <el-button type="danger" @click="delAllGoods()">删除</el-button>
+              <el-button type="success" @click="checkout()">结账</el-button>
             </div>
           </el-tab-pane>
           <el-tab-pane label="挂单">
@@ -98,144 +98,178 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
-  name: 'pos',
-  data(){
+  name: "pos",
+  data() {
     return {
-      tableData:[],
-      oftenGoods:[],
-      type0Goods:[],
-      type1Goods:[],
-      type2Goods:[],
-      type3Goods:[],
-      totalMoney:0,
-      totalCount:0
-    }
+      tableData: [],
+      oftenGoods: [],
+      type0Goods: [],
+      type1Goods: [],
+      type2Goods: [],
+      type3Goods: [],
+      totalMoney: 0,
+      totalCount: 0
+    };
   },
-  created:function(){
+  created: function() {
     //获取数据，根据现实的使用
-    axios.get('http://jspang.com/DemoApi/oftenGoods.php')
-     .then(response=>{
-       this.oftenGoods = response.data;
-     })
-     .catch(error=>{
-       alert('网络错误，不能访问');
-     })
+    axios
+      .get("http://jspang.com/DemoApi/oftenGoods.php")
+      .then(response => {
+        this.oftenGoods = response.data;
+      })
+      .catch(error => {
+        alert("网络错误，不能访问");
+      });
 
-    axios.get('http://jspang.com/DemoApi/typeGoods.php')
-     .then(response=>{
-       this.type0Goods = response.data[0];
-       this.type1Goods = response.data[1];
-       this.type2Goods = response.data[2];
-       this.type3Goods = response.data[3];
-     })
-     .catch(error=>{
-       alert('网络错误，不能访问');
-     })
+    axios
+      .get("http://jspang.com/DemoApi/typeGoods.php")
+      .then(response => {
+        this.type0Goods = response.data[0];
+        this.type1Goods = response.data[1];
+        this.type2Goods = response.data[2];
+        this.type3Goods = response.data[3];
+      })
+      .catch(error => {
+        alert("网络错误，不能访问");
+      });
   },
-  mounted:function(){
+  mounted: function() {
     var orderHeight = document.body.clientHeight;
-    document.getElementById('order-list').style.height = orderHeight +'px';
+    document.getElementById("order-list").style.height = orderHeight + "px";
   },
-  methods:{
-    addOrderList(goods){
+  methods: {
+    addOrderList(goods) {
       this.totalMoney = 0;
       this.totalCount = 0;
       //商品是否已经存在订单列表
       let isHave = false;
-      for(let i =0;i<this.tableData.length;i++){
-        if(this.tableData[i].goodsId == goods.goodsId){
+      for (let i = 0; i < this.tableData.length; i++) {
+        if (this.tableData[i].goodsId == goods.goodsId) {
           isHave = true;
         }
       }
       //根据判断的值 编写业务逻辑
-      
-      if(isHave){
+
+      if (isHave) {
         //改变列表中的商品数量
-        let arr =this.tableData.filter(o=>o.goodsId == goods.goodsId);
+        let arr = this.tableData.filter(o => o.goodsId == goods.goodsId);
         arr[0].count++;
-      }else{
-        let newGoods = {goodsId:goods.goodsId,goodsName:goods.goodsName,price:goods.price,count:1};
+      } else {
+        let newGoods = {
+          goodsId: goods.goodsId,
+          goodsName: goods.goodsName,
+          price: goods.price,
+          count: 1
+        };
         this.tableData.push(newGoods);
       }
-      //计算汇总金额和数量
-      this.tableData.forEach((element)=>{
-        this.totalCount += element.count;
-        this.totalMoney = this.totalMoney + (element.price*element.count);
-      })
+      this.getAllMoney();
     },
-    delSingleGoods(goods){
-      this.tableData = this.tableData.filter(o=>o.goodId != goods.goodsId);
+    //删除一列商品
+    delSingleGoods(goods) {
+      this.tableData = this.tableData.filter(o => o.goodsId != goods.goodsId);
+      this.getAllMoney();
+    },
+    //删除所有的商品
+    delAllGoods(){
+      this.tableData = [];
+      this.totalCount = 0;
+      this.totalMoney = 0;
+    },
+    checkout(){
+      if(this.totalCount != 0){
+        this.tableData = [];
+        this.totalCount = 0;
+        this.totalMoney = 0;
+        this.$message({
+          message:'结账成功，谢谢您的光临！',
+          type:'success',
+
+        });
+      }else{
+        this.$message.error('不能空结账。老板了解你急切的心情');
+      }
+    },
+    //汇总数量金额
+    getAllMoney() {
+      this.totalCount = 0;
+      this.totalMoney = 0;
+      if (this.tableData) {
+        //计算汇总金额和数量
+        this.tableData.forEach(element => {
+          this.totalCount += element.count;
+          this.totalMoney = this.totalMoney + element.price * element.count;
+        });
+      }
     }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
- .pos-order{
-   background-color: #f9fafc;
-   border-right: 1px solid #c0ccda;
-   
- }
- .div-btn{
-   margin-top: 10px;
- }
- .title{
-   height: 20px;
-   border-bottom: 1px solid #d3dce6;
-   background-color: #f9fafc;
-   padding: 10px;
-   text-align: left;
- }
- .often-goods-list ul li{
-   list-style: none;
-   float: left;
-   border:1px solid #e5e9f2;
-   padding: 10px;
-   margin: 10px;
-   background-color: #fff;
- }
- .o-price{
-   color: #58b7ff;
- }
- .goods-type{
-   clear: both;
- }
- .cookList li{
+.pos-order {
+  background-color: #f9fafc;
+  border-right: 1px solid #c0ccda;
+}
+.div-btn {
+  margin-top: 10px;
+}
+.title {
+  height: 20px;
+  border-bottom: 1px solid #d3dce6;
+  background-color: #f9fafc;
+  padding: 10px;
+  text-align: left;
+}
+.often-goods-list ul li {
   list-style: none;
-  width:23%;
-  border:1px solid #E5E9F2;
+  float: left;
+  border: 1px solid #e5e9f2;
+  padding: 10px;
+  margin: 10px;
+  background-color: #fff;
+}
+.o-price {
+  color: #58b7ff;
+}
+.goods-type {
+  clear: both;
+}
+.cookList li {
+  list-style: none;
+  width: 23%;
+  border: 1px solid #e5e9f2;
   height: auot;
   overflow: hidden;
-  background-color:#fff;
+  background-color: #fff;
   padding: 2px;
-  float:left;
+  float: left;
   margin: 2px;
   cursor: pointer;
 }
-.cookList li span{
-       
+.cookList li span {
   display: block;
-  float:left;
+  float: left;
 }
-.foodImg{
+.foodImg {
   width: 40%;
 }
-.foodName{
+.foodName {
   font-size: 16px;
   padding-left: 10px;
-  color:brown;
- 
+  color: brown;
 }
-.foodPrice{
+.foodPrice {
   font-size: 16px;
   padding-left: 10px;
-  padding-top:10px;
+  padding-top: 10px;
 }
-.totalDiv{
+.totalDiv {
   background-color: #fff;
   padding: 10px;
   border-bottom: 1px solid #d3dce6;
