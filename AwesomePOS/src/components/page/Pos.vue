@@ -99,7 +99,7 @@
 
 <script>
 import axios from 'axios';
-import func from './vue-temp/vue-editor-bridge';
+
 export default {
   name: 'pos',
   data(){
@@ -154,7 +154,6 @@ export default {
       
       if(isHave){
         //改变列表中的商品数量
-        //debugger;
         let arr =this.tableData.filter(o=>o.goodsId == goods.goodsId);
         arr[0].count++;
       }else{
@@ -166,11 +165,10 @@ export default {
         this.totalCount += element.count;
         this.totalMoney = this.totalMoney + (element.price*element.count);
       })
+    },
+    delSingleGoods(goods){
+      this.tableData = this.tableData.filter(o=>o.goodId != goods.goodsId);
     }
-  },
-  delSingleGoods(goods){
-    this.tableData = this.tableData.filter(o=>o.goodId != goods.goodsId);
-
   }
 }
 </script>
