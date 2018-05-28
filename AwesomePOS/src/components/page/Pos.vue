@@ -2,8 +2,8 @@
   <div class="pos">
     <el-row>
       <el-col :span='7' class="pos-order" id="order-list">
-        <el-tabs>
-          <el-tab-pane label="点餐">
+        <el-tabs type="card">
+          <el-tab-pane label="选购">
             <el-table :data="tableData" border style="width:100%">
               <el-table-column prop="goodsName" label="商品名称"></el-table-column>
               <el-table-column prop="count" label="数量" width="50"></el-table-column>
@@ -16,7 +16,7 @@
               </el-table-column>
             </el-table>
             <div class="totalDiv">
-              <small>数量：</small>{{totalCount}} &nbsp;&nbsp;&nbsp;&nbsp;<small>金额：</small>{{totalMoney}}元
+              <small>数量：</small>{{totalCount}}<small>金额：</small>{{totalMoney}}元
             </div>
             <div class="div-btn">
               <el-button type="warning" >挂单</el-button>
@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="goods-type">
-          <el-tabs>
+          <el-tabs type="card">
             <el-tab-pane label="汉堡">
               <div>
                 <ul class="cookList">
@@ -212,6 +212,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 .pos-order {
   background-color: #f9fafc;
   border-right: 1px solid #c0ccda;
@@ -274,4 +275,8 @@ export default {
   padding: 10px;
   border-bottom: 1px solid #d3dce6;
 }
+.totalDiv small:last-child{
+  padding-left: 30px;
+}
+
 </style>
