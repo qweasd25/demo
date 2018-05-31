@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span='7' class="pos-order" id="order-list">
         <el-tabs type="card">
-          <el-tab-pane label="选购">
+          <el-tab-pane label="购物车">
             <el-table :data="tableData" border style="width:100%">
               <el-table-column prop="goodsName" label="商品名称"></el-table-column>
               <el-table-column prop="count" label="数量" width="50"></el-table-column>
@@ -25,10 +25,27 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="挂单">
-            挂单
+            <el-table :data="tableData" border style="width:100%">
+              <el-table-column prop="goodsName" label="商品名称"></el-table-column>
+              <el-table-column prop="count" label="数量" width="50"></el-table-column>
+              <el-table-column prop="price" label="金额" width="70"></el-table-column>
+              <el-table-column label="操作" width="100" fixed="right">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="delSingleGoods(scope.row)">删除</el-button>
+                  <el-button type="text" size="small" @click="addOrderList(scope.row)">增加</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <div class="totalDiv">
+              <small>数量：</small>{{totalCount}}<small>金额：</small>{{totalMoney}}元
+            </div>
+            <div class="div-btn">
+              <el-button type="danger" @click="delAllGoods()">删除</el-button>
+              <el-button type="success" @click="checkout()">结账</el-button>
+            </div>
           </el-tab-pane>
-          <el-tab-pane label="外卖">
-            外卖
+          <el-tab-pane label="已完成订单">
+            订单
           </el-tab-pane>
         </el-tabs>
       </el-col>
@@ -105,6 +122,7 @@ export default {
   data() {
     return {
       tableData: [],
+      tableDataStorage: [], 
       oftenGoods: [],
       type0Goods: [],
       type1Goods: [],
@@ -205,6 +223,10 @@ export default {
           this.totalMoney = this.totalMoney + element.price * element.count;
         });
       }
+    },
+    //挂单
+    putupOrder(){
+      
     }
   }
 };
