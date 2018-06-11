@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>克隆</title>
+</head>
+<body>
+    <a href="http://note.youdao.com/noteshare?id=b478659ae283e08db9906e49548da159">关于克隆的笔记</a>
+</body>
+<script>
+// 被克隆对象
+const oldObj = {
+  a: 1,
+  b: [ 'e', 'f', 'g' ],
+  c: { h: { i: 2 } }
+};
+
+// 浅克隆函数
+function shallowClone(o) {
+  const obj = {};
+  for ( let i in o) {
+    obj[i] = o[i];
+  }
+  return obj;
+}
+
+const newObj = shallowClone(oldObj);
+console.log(newObj.c.h, oldObj.c.h); // { i: 2 } { i: 2 }
+console.log(oldObj.c.h === newObj.c.h); // true
+
+newObj.c.h = "change";
+console.log(newObj.c.h, oldObj.c.h); 
+
+var arrOne = {
+  name:"小明",
+  age:"12",
+  sister:{
+    name:"小美",
+    age:"10"
+  }
+}
+var arrTwo = arrOne;
+var arrThree = JSON.parse(JSON.stringify(arrTwo));
+arrOne.name = "小光";
+arrOne.sister.name = "小雅";
+console.log(arrTwo);
+console.log(arrThree);
+
+</script>
+</html>
